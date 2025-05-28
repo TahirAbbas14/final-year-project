@@ -49,7 +49,7 @@ const NavigationBar = () => {
               <Link href="/users/profile">Profile</Link>
 
               <span>Hello, {user.firstName}</span>
-              <Link href="#">
+              <Link href="/users/cart">
                 <CartIcon />
               </Link>
               <button onClick={handleLogout}>Logout</button>

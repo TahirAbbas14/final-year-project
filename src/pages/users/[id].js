@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import NavigationBar from "@/components/NavigationBar";
 
 const RestaurantDetail = () => {
   const { id } = useParams();
@@ -41,51 +42,54 @@ const RestaurantDetail = () => {
   if (!restaurant) return <LoadingText>No restaurant found.</LoadingText>;
 
   return (
-    <Wrapper>
-      <Title>{restaurant.name}</Title>
-      <Address>
-        {restaurant.address}, {restaurant.city}
-      </Address>
-      <MenuSection>
-        <MenuTitle>Menu</MenuTitle>
-        <MenuGrid>
-          {restaurant.menu.map((item, index) => {
-            const cartItem = {
-              menuItemId: item._id,
-              name: item.name,
-              price: item.price,
-              restaurantId: restaurant._id,
-              restaurantName: restaurant.name,
-            };
+    <>
+      <NavigationBar />
+      <Wrapper>
+        <Title>{restaurant.name}</Title>
+        <Address>
+          {restaurant.address}, {restaurant.city}
+        </Address>
+        <MenuSection>
+          <MenuTitle>Menu</MenuTitle>
+          <MenuGrid>
+            {restaurant.menu.map((item, index) => {
+              const cartItem = {
+                menuItemId: item._id,
+                name: item.name,
+                price: item.price,
+                restaurantId: restaurant._id,
+                restaurantName: restaurant.name,
+              };
 
-            return (
-              <MenuCard key={index}>
-                <MenuCardContent>
-                  <MenuItemName>{item.name}</MenuItemName>
-                  <MenuItemDesc>{item.description}</MenuItemDesc>
-                  <MenuItemPrice>Rs. {item.price}</MenuItemPrice>
-                  <ButtonRow>
-                    <Button
-                      onClick={() => {
-                        console.log("Adding to cart:", cartItem);
-                        addToCart(cartItem);
-                      }}
-                    >
-                      Add to Cart
-                    </Button>
-                    <OutlineButton
-                      onClick={() => alert(`Order ${item.name} now`)}
-                    >
-                      Order Now
-                    </OutlineButton>
-                  </ButtonRow>
-                </MenuCardContent>
-              </MenuCard>
-            );
-          })}
-        </MenuGrid>
-      </MenuSection>
-    </Wrapper>
+              return (
+                <MenuCard key={index}>
+                  <MenuCardContent>
+                    <MenuItemName>{item.name}</MenuItemName>
+                    <MenuItemDesc>{item.description}</MenuItemDesc>
+                    <MenuItemPrice>Rs. {item.price}</MenuItemPrice>
+                    <ButtonRow>
+                      <Button
+                        onClick={() => {
+                          console.log("Adding to cart:", cartItem);
+                          addToCart(cartItem);
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                      <OutlineButton
+                        onClick={() => alert(`Order ${item.name} now`)}
+                      >
+                        Order Now
+                      </OutlineButton>
+                    </ButtonRow>
+                  </MenuCardContent>
+                </MenuCard>
+              );
+            })}
+          </MenuGrid>
+        </MenuSection>
+      </Wrapper>
+    </>
   );
 };
 
